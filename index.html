@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0px;
+        }
+        .fas{
+            font-size: 2rem;
+            margin-right: 30px;
+            margin-left: 30px;
+        }
+        .icon-pallet{
+            height: 50px;
+            background-color: lightgrey;
+            width: 800px;
+            margin-left: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .red{
+            background-color: red;
+            width: 35px;   /*  to make a circle (must)height = width */
+            height: 35px;
+            border-radius: 50%;  /*  to make a circle  */
+            
+        }
+        .green{
+            background-color: green;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+        .blue{
+            background-color: blue;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Canvas example</h1>
+
+    <div class="icon-pallet">
+        <i class="fas fa-square"></i>
+        <i class="fas fa-grip-lines-vertical"></i>
+        <div class = "red"></div>
+        <div class = "green"></div>  
+        <div class = "blue"></div>
+    </div>
+    <!-- drawing board -->
+    <canvas></canvas>
+</body>
+<!-- script tag is used to inject js in html -->
+<script>
+    let canvasBoard = document.querySelector("canvas");
+    let rectTool = document.querySelector(".fas.fa-square");
+    let lineTool = document.querySelector(".fa-grip-lines-vertical");
+    let currentTool = "rectTool";
+    let body = document.querySelector("body");
+    let redColor = document.querySelector(".red");
+    let greenColor = document.querySelector(".green");
+    let blueColor = document.querySelector(".blue");
+    let boardTop = canvasBoard.getBoundingClientRect().top;  // top = vertical distance from the left top corner to the canvasboard
+    let ix, iy, fx, fy 
+    let drawingMode = false;
+    canvasBoard.height = window.innerHeight; 
+    canvasBoard.width = window.innerWidth; 
+    let tool = canvasBoard.getContext("2d");   // gives you the tool to draw on that canvas
+    // tool.fillStyle = "green";
+    // tool.fillRect(10, 30, 200, 200);   // build rectangle
+    
+    // tool.strokeStyle = "red"; 
+    // tool.strokeRect(50, 40, 200, 400); // draws boundary\
+</script>
+
+<script>
+    
+    redColor.addEventListener("click", function(){
+       tool.strokeStyle = "red";
+    })
+        
+    greenColor.addEventListener("click", function(){
+        tool.strokeStyle = "green";
+    })
+        
+    blueColor.addEventListener("click", function(){
+        tool.strokeStyle = "blue";
+    })
+
+
+    // tool change logic
+    rectTool.addEventListener("click", function(){ // addeventListener user ka input lene ke kaam aata hai  
+        currentTool = "rectTool";
+    })
+
+    lineTool.addEventListener("click", function(){
+        currentTool = "lineTool";
+    })
+
+    // getboundingClientRect() tell info wrt canvasBoard
+
+    let drawingMode = false; 
+    // press on the screen
+    // body.addEventListener("mousedown", function(e){ 
+    //     ix = e.clientX; 
+    //     iy = e.clientY - boardTop;
+    // })
+</script>
+
+<script>
+    body.addEventListener("mousedown", function(e){
+        drawingMode = true;
+        tool.beginPath(); 
+        tool.moveTo(e.clientX, e.clienty - boardTop);
+    })
+    body.addEventListener("mouseup", function(){
+        drawingMode = false; 
+    })
+    body.addEventListener("mousemove", function(e){
+        if(drawingMode == false){
+            return; 
+        }
+        fx = e.clientX; 
+        fy = e.clientY - boardTop;
+        // tool.beginPath(); 
+        // tool.moveTo(ix, iy);
+        tool.lineTo(fx, fy); 
+        tool.stroke(); 
+        ix = fx; 
+        iy = fy; 
+    })
+    body.addEventListener("mousedown", function(e){
+        ix = e.clientX; 
+        iy = e.clientY - boardTop;
+    })
+    body.addEventListener("mouseup", function(e){
+        fx = e.clientX; 
+        fy = e.clientY - boardTop;
+        let width = fx - ix; 
+        let height = fy - iy; 
+        if(currentTool == "rectTool"){
+            tool.strokeRect(ix, iy, width, height); 
+        }
+        else{
+            tool.beginPath(); 
+            tool.moveTo(ix, iy);
+            tool.lineTo(fx, fy);
+            tool.stroke();  
+        }
+    })
+          
+</script>
+</html>       

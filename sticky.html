@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    .close {
+        height: 15px;
+        width: 15px;
+        background-color: rgb(248, 85, 85);
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    .minimize {
+        height: 15px;
+        width: 15px;
+        background-color: lightgreen;
+        border-radius: 50%;
+    }
+
+    .sticky {
+        width: 190px;
+        height: 180px;
+    }
+    
+    .navBar {
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        display: flex;
+        height: 28px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    
+    .textarea {
+        width: 186px;
+        outline: none;
+        border: none;
+        height: 150px;
+        border-top: 2px solid gray;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+</style>
+
+<body>
+    <button>click</button>
+    <h1>Sticky Example</h1>
+    <script>
+        let btn = document.querySelector("button");
+        let body = document.querySelector("body");
+        btn.addEventListener("click", function (e) {
+            let sticky = document.createElement("div");
+            sticky.setAttribute("class", "sticky");
+            sticky.innerHTML = `<div class = "navBar">
+                <div class = "close"></div>
+                <div class = "minimize"></div>
+            </div>
+            <textarea name = "" class="textarea"></textarea>`
+            body.appendChild(sticky);
+            
+            let minimize = sticky.querySelector(".minimize");
+            let isminimized = false; 
+            let close = sticky.querySelector(".close");
+            let textArea = sticky.querySelector("textarea");
+            minimize.addEventListener("click", function () {
+                if(isminimized == false){
+                    textArea.style.display = "none";  // used to hide 
+                }
+                else{
+                    textArea.style.display = "block";  // used to show 
+                }
+                isminimized = !isminimized;  // =! or = ! means isminimized = (!minimized) [negation statement] 
+            })
+            
+            close.addEventListener("click", function(){
+                // sticky.style.display = "none"; 
+                //or 
+
+                sticky.remove(); 
+            })
+
+        })
+
+
+    </script>
+    <!-- <div class = "sticky">
+        <div class = "navBar">
+            <div class = "close"></div>
+            <div class = "minimize"></div>
+        </div>
+        <textarea name = "" class="textarea"></textarea>
+    </div> -->
+</body>
+
+</html>
